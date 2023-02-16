@@ -5,14 +5,10 @@
         class="btn brush"
         aria-label="Кисть"
         :class="{ active: toolStore.toolName === 'brush' }"
-        @click="
-          toolStore.setTool(
-            new Brush(canvasStore.getCanvas as HTMLCanvasElement),
-            'brush'
-          )
-        "
+        @click="setCurrentTool('brush')"
       >
-        <i class="bi-brush-fill"></i>
+        <IconBrushFill />
+        <!-- <i class="bi-brush-fill"></i> -->
         <!-- <div class="i-bi-brush-fill"></div> -->
       </button>
       <button
@@ -20,61 +16,45 @@
         btn
         aria-label="Прямоугольник"
         :class="{ active: toolStore.toolName === 'rect' }"
-        @click="
-          toolStore.setTool(
-            new Rect(canvasStore.getCanvas as HTMLCanvasElement),
-            'rect'
-          )
-        "
+        @click="setCurrentTool('rect')"
       >
-        <i class="bi-square-fill"></i>
+        <IconSquareFill />
+        <!-- <i class="bi-square-fill"></i> -->
         <!-- <div class="i-bi-square-fill"></div> -->
       </button>
       <button
         class="btn circle"
         aria-label="Круг"
         :class="{ active: toolStore.toolName === 'circle' }"
-        @click="
-          toolStore.setTool(
-            new Circle(canvasStore.getCanvas as HTMLCanvasElement),
-            'circle'
-          )
-        "
+        @click="setCurrentTool('circle')"
       >
-        <i class="bi-circle-fill"></i>
+        <IconCircleFill />
+        <!-- <i class="bi-circle-fill"></i> -->
         <!-- <div class="i-bi-circle-fill"></div> -->
       </button>
       <button
         class="btn eraser"
         aria-label="Ластик"
         :class="{ active: toolStore.toolName === 'eraser' }"
-        @click="
-          toolStore.setTool(
-            new Eraser(canvasStore.getCanvas as HTMLCanvasElement),
-            'eraser'
-          )
-        "
+        @click="setCurrentTool('eraser')"
       >
-        <i class="bi-eraser-fill"></i>
+        <IconEraserFill class="text-4xl" />
+        <!-- <i class="bi-eraser-fill"></i> -->
         <!-- <div class="i-bi-eraser-fill"></div> -->
       </button>
       <button
         class="btn line"
         aria-label="Линия"
         :class="{ active: toolStore.toolName === 'line' }"
-        @click="
-          toolStore.setTool(
-            new Line(canvasStore.getCanvas as HTMLCanvasElement),
-            'line'
-          )
-        "
+        @click="setCurrentTool('line')"
       >
         <div></div>
         <!-- <i class="bi-square-fill"></i> -->
         <!-- <div class="i-ci-line-xl"></div> -->
       </button>
       <button class="btn palette" aria-label="Выбор цвета заливки">
-        <i
+        <IconPaletteFill :style="`color: ${fillColor}`" />
+        <!-- <i
           class="bi-palette-fill"
           :style="`background: -webkit-linear-gradient(
         -45deg,
@@ -82,7 +62,7 @@
         ${fillColor}
       ); -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;`"
-        ></i>
+        /> -->
         <!-- <div
           ref="palette"
           class="i-bi-palette-fill"
@@ -126,7 +106,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
 
-import { useToolStore } from '@/stores/toolStore';
+import { useToolStore, type TypeToolName } from '@/stores/toolStore';
 import { useCanvasStore } from '@/stores/canvasStore';
 import { Brush } from '@/tools/Brush';
 import { Rect } from '@/tools/Rect';
@@ -134,10 +114,49 @@ import { Circle } from '@/tools/Circle';
 import { Eraser } from '@/tools/Eraser';
 import { Line } from '@/tools/Line';
 
+import IconBrushFill from '~icons/bi/brush-fill';
+import IconSquareFill from '~icons/bi/square-fill';
+import IconCircleFill from '~icons/bi/circle-fill';
+import IconEraserFill from '~icons/bi/eraser-fill';
+import IconPaletteFill from '~icons/bi/palette-fill';
+
 const fillColor = ref('');
 
 const toolStore = useToolStore();
 const canvasStore = useCanvasStore();
+
+function setCurrentTool(tool: TypeToolName) {
+  if (!tool) return;
+
+  const canvas = canvasStore.getCanvas;
+
+  if (!canvas) return;
+
+  switch (tool) {
+    case 'brush':
+      toolStore.setTool(new Brush(canvas), tool);
+      break;
+
+    case 'rect':
+      toolStore.setTool(new Rect(canvas), tool);
+      break;
+
+    case 'circle':
+      toolStore.setTool(new Circle(canvas), tool);
+      break;
+
+    case 'eraser':
+      toolStore.setTool(new Eraser(canvas), tool);
+      break;
+
+    case 'line':
+      toolStore.setTool(new Line(canvas), tool);
+      break;
+
+    default:
+      break;
+  }
+}
 
 watchEffect(() => {
   if (fillColor.value) {
@@ -155,7 +174,7 @@ button.btn {
   }
 
   &.line {
-    @apply block relative w-[30px] h-9;
+    @apply block relative w-9 h-12;
 
     div {
       @apply absolute  top-42/100 w-110/100 h-2 transform -rotate-45 z-1 bg-black;
@@ -164,35 +183,6 @@ button.btn {
     &:hover > div,
     &:focus > div {
       @apply bg-orange-500;
-    }
-  }
-
-  &.palette {
-    // -webkit-background-clip: text;
-    // -webkit
-    // -webkit-text-fill-color: red;
-    // @apply bg-transparent !text-transparent hover:(text-orange-500)
-    @apply relative shadow shadow-md;
-
-    & > i {
-      // color: transparent;
-      background: -webkit-linear-gradient(
-        -45deg,
-        rgb(210, 33, 250),
-        rgb(35, 215, 206)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    &:hover {
-      & > div {
-        background: orange;
-      }
-    }
-
-    input[type='color'] {
-      @apply absolute appearance-none visibility-hidden opacity-0 bg-tranparent inset-0 z-1 w-[30px] h-[30px] cursor-pointer;
     }
   }
 

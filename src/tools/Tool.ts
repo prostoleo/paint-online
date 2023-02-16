@@ -21,6 +21,7 @@ export class Tool {
   }
 
   set lineWidth(width: number) {
+    // console.log('width: ', width);
     if (this.ctx) {
       this.ctx.lineWidth = width;
     }

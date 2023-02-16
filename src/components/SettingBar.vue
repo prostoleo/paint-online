@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 bg-white w-full shadow shadow-md fixed top-[68px]">
+  <div class="py-3 bg-white w-full shadow shadow-md fixed top-20">
     <div class="container flex items-center gap-4">
       <div class="flex justify-center">
         <div class="flex items-center gap-3">
@@ -13,7 +13,7 @@
             type="number"
             class="form-control block w-full max-w-24 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
             id="inputLineWidth"
-            min="0"
+            min="1"
             placeholder="Толщина линии"
           />
         </div>
@@ -26,29 +26,12 @@
             >Цвет обводки</label
           >
           <button
-            class="text-black text-3xl hover:(text-orange-500) focus:(text-orange-500) palette relative shadow shadow-md"
+            class="palette text-black text-3xl hover:(text-orange-500) focus:(text-orange-500) relative"
             aria-label="Выбор цвета обводки"
           >
-            <!-- <div
-            ref="palette"
-              class="i-bi-palette-fill"
-              :style="`background: ${strokeColor}`"
-            ></div> -->
-            <i
-              ref="palette"
-              class="bi-palette-fill"
-              :style="`background: -webkit-linear-gradient(
-        -45deg,
-        ${strokeColor},
-        ${strokeColor}
-      ); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;`"
-            ></i>
-            <input
-              v-model="strokeColor"
-              class="absolute appearance-none visibility-hidden opacity-0 bg-tranparent inset-0 z-1 w-[30px] h-[30px] cursor-pointer"
-              type="color"
-            />
+            <IconPaletteFill :style="`color: ${strokeColor}`" />
+
+            <input v-model="strokeColor" type="color" />
           </button>
         </div>
       </div>
@@ -57,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import IconPaletteFill from '~icons/bi/palette-fill';
 import { ref, watchEffect } from 'vue';
 
 import { useToolStore } from '@/stores/toolStore';
@@ -71,39 +55,12 @@ watchEffect(() => {
     toolStore.setStrokeColor(strokeColor.value);
   }
 
-  if (strokeWidth.value) {
+  /* if (strokeWidth.value !== null && strokeWidth.value !== undefined) {
     toolStore.setLineWidth(+strokeWidth.value);
-  }
+  } */
+
+  toolStore.setLineWidth(+strokeWidth.value);
 });
 </script>
 
-<style scoped lang="scss">
-.palette {
-  // -webkit-background-clip: text;
-  // -webkit
-  // -webkit-text-fill-color: red;
-  // @apply bg-transparent !text-transparent hover:(text-orange-500)
-  @apply relative shadow shadow-md;
-
-  & > i {
-    // color: transparent;
-    background: -webkit-linear-gradient(
-      -45deg,
-      rgb(210, 33, 250),
-      rgb(35, 215, 206)
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  &:hover {
-    & > div {
-      background: orange;
-    }
-  }
-
-  input[type='color'] {
-    @apply absolute appearance-none visibility-hidden opacity-0 bg-tranparent inset-0 z-1 w-[30px] h-[30px] cursor-pointer;
-  }
-}
-</style>
+<style scoped lang="scss"></style>

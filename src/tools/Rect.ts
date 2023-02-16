@@ -13,16 +13,13 @@ export class Rect extends Tool {
 
   listen() {
     if (this.canvas) {
-      /* this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-      this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-      this.canvas.onmousemove = this.mouseMoveHandler.bind(this); */
       this.canvas.onpointerup = this.mouseUpHandler.bind(this);
       this.canvas.onpointerdown = this.mouseDownHandler.bind(this);
       this.canvas.onpointermove = this.mouseMoveHandler.bind(this);
     }
   }
 
-  mouseUpHandler(e: MouseEvent) {
+  mouseUpHandler() {
     this.mouseDown = false;
   }
   mouseDownHandler(e: MouseEvent) {

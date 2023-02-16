@@ -38,6 +38,7 @@ export const useToolStore = defineStore('tool', () => {
     }
   }
   function setLineWidth(width: number) {
+    // console.log('width: ', width);
     if (tool.value) {
       tool.value.lineWidth = width;
     }
