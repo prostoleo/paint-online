@@ -8,8 +8,6 @@
         @click="setCurrentTool('brush')"
       >
         <IconBrushFill />
-        <!-- <i class="bi-brush-fill"></i> -->
-        <!-- <div class="i-bi-brush-fill"></div> -->
       </button>
       <button
         class="btn rect"
@@ -19,8 +17,6 @@
         @click="setCurrentTool('rect')"
       >
         <IconSquareFill />
-        <!-- <i class="bi-square-fill"></i> -->
-        <!-- <div class="i-bi-square-fill"></div> -->
       </button>
       <button
         class="btn circle"
@@ -29,8 +25,6 @@
         @click="setCurrentTool('circle')"
       >
         <IconCircleFill />
-        <!-- <i class="bi-circle-fill"></i> -->
-        <!-- <div class="i-bi-circle-fill"></div> -->
       </button>
       <button
         class="btn eraser"
@@ -39,8 +33,6 @@
         @click="setCurrentTool('eraser')"
       >
         <IconEraserFill class="text-4xl" />
-        <!-- <i class="bi-eraser-fill"></i> -->
-        <!-- <div class="i-bi-eraser-fill"></div> -->
       </button>
       <button
         class="btn line"
@@ -49,25 +41,10 @@
         @click="setCurrentTool('line')"
       >
         <div></div>
-        <!-- <i class="bi-square-fill"></i> -->
-        <!-- <div class="i-ci-line-xl"></div> -->
       </button>
       <button class="btn palette" aria-label="Выбор цвета заливки">
         <IconPaletteFill :style="`color: ${fillColor}`" />
-        <!-- <i
-          class="bi-palette-fill"
-          :style="`background: -webkit-linear-gradient(
-        -45deg,
-        ${fillColor},
-        ${fillColor}
-      ); -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;`"
-        /> -->
-        <!-- <div
-          ref="palette"
-          class="i-bi-palette-fill"
-          :style="`background: ${fillColor}`"
-        ></div> -->
+
         <input v-model="fillColor" class="" type="color" />
       </button>
 
@@ -77,9 +54,7 @@
         :disabled="!canvasStore.isUndoActive"
         @click="canvasStore.undoAction()"
       >
-        <!-- <div class="i-bi-arrow-left"></div> -->
-        <i class="bi-arrow-90deg-left"></i>
-        <!-- <div class="i-bi-arrow-90deg-left"></div> -->
+        <IconArrow90degLeft class="bi-arrow-90deg-left" />
       </button>
       <button
         class="btn redo"
@@ -87,17 +62,14 @@
         :disabled="!canvasStore.isRedoActive"
         @click="canvasStore.redoAction()"
       >
-        <!-- <div class="i-bi-arrow-right"></div> -->
-        <i class="bi-arrow-90deg-right"></i>
-        <!-- <div class="i-bi-arrow-90deg-right"></div> -->
+        <IconArrow90degRight />
       </button>
       <button
         class="btn save"
         aria-label="Сохранить"
         @click="canvasStore.saveImage()"
       >
-        <i class="bi-save-fill"></i>
-        <!-- <div class="i-bi-save-fill" /> -->
+        <IconSaveFill />
       </button>
     </div>
   </div>
@@ -119,6 +91,9 @@ import IconSquareFill from '~icons/bi/square-fill';
 import IconCircleFill from '~icons/bi/circle-fill';
 import IconEraserFill from '~icons/bi/eraser-fill';
 import IconPaletteFill from '~icons/bi/palette-fill';
+import IconArrow90degLeft from '~icons/bi/arrow-90deg-Left';
+import IconArrow90degRight from '~icons/bi/arrow-90deg-right';
+import IconSaveFill from '~icons/bi/save-fill';
 
 const fillColor = ref('');
 
