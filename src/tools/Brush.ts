@@ -3,8 +3,8 @@ import { Tool } from './Tool';
 export class Brush extends Tool {
   mouseDown = null as boolean | null;
 
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas);
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
+    super(canvas, socket, id);
     this.listen();
   }
 
@@ -21,6 +21,16 @@ export class Brush extends Tool {
 
   mouseUpHandler(e: MouseEvent) {
     this.mouseDown = false;
+
+    this.socket.send(
+      JSON.stringify({
+        method: 'draw',
+        id: this.id,
+        figure: {
+          type: 'finish'
+        }
+      })
+    );
   }
   mouseDownHandler(e: MouseEvent) {
     // e.target.
@@ -34,12 +44,24 @@ export class Brush extends Tool {
     const target = e.target as HTMLElement;
 
     if (this.mouseDown) {
-      this.draw(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+      // this.draw(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+
+      this.socket.send(
+        JSON.stringify({
+          method: 'draw',
+          id: this.id,
+          figure: {
+            type: 'brush',
+            x: e.pageX - target.offsetLeft,
+            y: e.pageY - target.offsetTop
+          }
+        })
+      );
     }
   }
 
-  draw(x: number, y: number) {
-    this.ctx?.lineTo(x, y);
-    this.ctx?.stroke();
+  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+    ctx?.lineTo(x, y);
+    ctx?.stroke();
   }
 }

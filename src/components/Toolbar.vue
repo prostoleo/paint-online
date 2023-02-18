@@ -94,6 +94,7 @@ import IconPaletteFill from '~icons/bi/palette-fill';
 import IconArrow90degLeft from '~icons/bi/arrow-90deg-Left';
 import IconArrow90degRight from '~icons/bi/arrow-90deg-right';
 import IconSaveFill from '~icons/bi/save-fill';
+import { MyWebSocket } from '@/ws/websocket';
 
 const fillColor = ref('');
 
@@ -107,13 +108,23 @@ function setCurrentTool(tool: TypeToolName) {
 
   if (!canvas) return;
 
+  const websocket = new MyWebSocket();
+  // console.log('MyWebSocket.getWebsocket: ', MyWebSocket.getWebsocket);
+  // console.log('websocket.getWebsocket: ', websocket.getWebsocket);
+
   switch (tool) {
     case 'brush':
-      toolStore.setTool(new Brush(canvas), tool);
+      toolStore.setTool(
+        new Brush(canvas, websocket.getWebsocket, websocket.getSessionId),
+        tool
+      );
       break;
 
     case 'rect':
-      toolStore.setTool(new Rect(canvas), tool);
+      toolStore.setTool(
+        new Rect(canvas, websocket.getWebsocket, websocket.getSessionId),
+        tool
+      );
       break;
 
     case 'circle':
