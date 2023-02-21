@@ -1,6 +1,8 @@
 import { useCanvasStore } from '@/stores/canvasStore';
 import type { TypeToolName } from '@/stores/toolStore';
 
+import WebSocket from 'ws';
+
 interface IWebSocket {
   socket: WebSocket;
   sessionId: string;

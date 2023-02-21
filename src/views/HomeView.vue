@@ -18,16 +18,16 @@ import Canvas from '@/components/Canvas.vue';
 import Toolbar from '@/components/Toolbar.vue';
 import SettingBar from '@/components/SettingBar.vue';
 import Modal from '@/components/Modal.vue';
-import { useCanvasStore } from '@/stores/canvasStore';
-import { storeToRefs } from 'pinia';
-import { isArray } from '@vue/shared';
-import { useWebsocketStore } from '@/stores/websocketStore';
+// import { useCanvasStore } from '@/stores/canvasStore';
+// import { storeToRefs } from 'pinia';
+// import { isArray } from '@vue/shared';
+// import { useWebsocketStore } from '@/stores/websocketStore';
 import { MyWebSocket } from '@/ws/websocket';
 
 const showModal = ref(true);
 
 // const canvasStore = useCanvasStore();
-const websocketStore = useWebsocketStore();
+// const websocketStore = useWebsocketStore();
 
 // const { getUsername } = storeToRefs(canvasStore);
 const route = useRoute();
